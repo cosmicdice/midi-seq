@@ -1,0 +1,39 @@
+<svg [ngClass]="{inactive: !active}" width="245" height="80">
+    <g class="labels" stroke="gray" font-size="10">
+        <text stroke="black" x="12" y="70">C</text>
+        <text x="47" y="70">D</text>
+        <text x="82" y="70">E</text>
+        <text x="117" y="70">F</text>
+        <text x="152" y="70">G</text>
+        <text x="187" y="70">A</text>
+        <text x="222" y="70">B</text>
+    </g>
+    <g class="white notes" style="fill:white;fill-opacity:0;stroke:black;stroke-width:2">
+        <rect (click)="toggleNote(0)" [ngClass]="{on: semitones[0], highlight: highlight[0]}" x="0" y="0" width="35"
+            height="80" />
+        <rect (click)="toggleNote(2)" [ngClass]="{on: semitones[2], highlight: highlight[2]}" x="35" y="0" width="35"
+            height="80" />
+        <rect (click)="toggleNote(4)" [ngClass]="{on: semitones[4], highlight: highlight[4]}" x="70" y="0" width="35"
+            height="80" />
+        <rect (click)="toggleNote(5)" [ngClass]="{on: semitones[5], highlight: highlight[5]}" x="105" y="0" width="35"
+            height="80" />
+        <rect (click)="toggleNote(7)" [ngClass]="{on: semitones[7], highlight: highlight[7]}" x="140" y="0" width="35"
+            height="80" />
+        <rect (click)="toggleNote(9)" [ngClass]="{on: semitones[9], highlight: highlight[9]}" x="175" y="0" width="35"
+            height="80" />
+        <rect (click)="toggleNote(11)" [ngClass]="{on: semitones[11], highlight: highlight[11]}" x="210" y="0"
+            width="35" height="80" />
+    </g>
+    <g class="black notes" style="fill:black;stroke:black;stroke-width:2">
+        <rect (click)="toggleNote(1)" [ngClass]="{on: semitones[1], highlight: highlight[1]}" x="25" y="0" width="20"
+            height="55" />
+        <rect (click)="toggleNote(3)" [ngClass]="{on: semitones[3], highlight: highlight[3]}" x="60" y="0" width="20"
+            height="55" />
+        <rect (click)="toggleNote(6)" [ngClass]="{on: semitones[6], highlight: highlight[6]}" x="130" y="0" width="20"
+            height="55" />
+        <rect (click)="toggleNote(8)" [ngClass]="{on: semitones[8], highlight: highlight[8]}" x="165" y="0" width="20"
+            height="55" />
+        <rect (click)="toggleNote(10)" [ngClass]="{on: semitones[10], highlight: highlight[10]}" x="200" y="0"
+            width="20" height="55" />
+    </g>
+</svg>

@@ -1,0 +1,120 @@
+<div class="card mb-5">
+    <div class="card-body pb-3">
+
+        <div class="form-group mr-3" role="group">
+            <div class="btn-group">
+                <button type="button" class="btn btn-danger" (click)="stop()">
+                    <i class="fa fa-stop" aria-hidden="true"></i>
+                </button>
+                <button type="button" class="btn btn-success" (click)="start()">
+                    <i class="fa fa-play" aria-hidden="true"></i>
+                </button>
+            </div>
+            <button type="button" class="btn btn-info ml-3" (click)="computeSequenceLength()">
+                <i class="fa fa-question-circle" aria-hidden="true"></i>
+            </button>
+        </div>
+
+        <seq-semitones (changed)="semitonesChanged($event)" [highlight]="highlight"></seq-semitones>
+        <span class="ml-3">{{lastNote}}</span>
+
+        <form class="form-inline my-3">
+            <div class="form-group">
+                <label> BPM: </label>
+                <input type="number" name="bpm" class="form-control ml-2" min="1" max="240" [(ngModel)]="bpm">
+            </div>
+            <div class="form-group ml-3">
+                <label> Div : </label>
+                <input type="number" name="div" class="form-control ml-2" min="0" max="16"
+                    [(ngModel)]="clock.multiplier">
+            </div>
+            <div class="form-group ml-3">
+                <label> Root: </label>
+                <input type="number" name="root" class="form-control ml-2" min="24" max="96" [(ngModel)]="root">
+            </div>
+        </form>
+
+        <div class="row mb-3">
+            <div class="col-12">
+                Sequencer voicing: <i title="Select which sequencers are summed to each voice"
+                    class="fa fa-question-circle" aria-hidden="true"></i>
+                <div *ngFor="let voice of voices; let gi = index">
+                    <div *ngFor="let seqLink of voice.seqLinks; let sli = index"
+                        class="mr-3 form-check form-check-inline">
+                        <input class="form-check-input" [name]="'gs'+gi+'-'+seqLink.index" type="checkbox"
+                            [id]="'gs'+gi+'-'+seqLink.index" [(ngModel)]="seqLink.state">
+                        <label class="form-check-label" [for]="'gs'+gi+'-'+seqLink.index">
+                            {{sli+1}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12" *ngFor="let tSeq of tSeqs; let i = index">
+                <form class="form-inline">
+                    <div class="input-group">
+                        <button style="width:41px" click-stop-propagation type="button" class="btn btn-light">
+                            {{i+1}}
+                        </button>
+                        <div class="input-group-prepend">
+                            <div class="input-group-text px-2">*</div>
+                        </div>
+                        <input style="width: 80px" type="number" [name]="'div'+i" class="form-control pr-1" min="0"
+                            max="16" [(ngModel)]="tSeq.trig.multiplier">
+                        <div class="input-group-append">
+                            <div class="input-group-text px-1">%</div>
+                        </div>
+                        <input style="width: 70px" type="number" [name]="'phase'+i"
+                            class="input-group-append form-control pr-1" min="-1" max="1" step="0.1"
+                            [(ngModel)]="tSeq.trig.phase">
+                    </div>
+                    <span class="sequencer d-flex">
+
+                        <div style="width: 300px" class="form-group ml-3">
+                            <label [for]="'sizeRange'+i"> {{ stepViews[i] + 1 + "/" + tSeq.seq.steps.length}}
+                                : {{tSeq.seq.steps[stepViews[i]].value | sign}} st </label>
+                            <input type="range" class="custom-range"
+                                [ngClass]="{on: tSeq.seq.position === stepViews[i]}"
+                                [(ngModel)]="tSeq.seq.steps[stepViews[i]].value" min="-12" max="12" [name]="'range'+i"
+                                [id]="'range'+i">
+                        </div>
+                    </span>
+                    <div role="group" class="form-group btn-group ml-3">
+                        <button type="button" [ngClass]="{active: enabledSequencers[i]}"
+                            class="btn  btn-outline-primary no-hover" (click)="toggleSequencer(i)">
+                            <i aria-hidden="true" class="fa fa-rss"></i>
+                        </button>
+                        <div class="btn-group" role="group">
+                            <button [id]="'seqMenuDrop'+i" type="button" class="btn btn-secondary dropdown-toggle"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            </button>
+                            <div class="dropdown-menu text-center" [attr.aria-labelledby]="'seqMenuDrop'+i">
+                                <div class="btn-group" role="group">
+                                    <button click-stop-propagation type="button" class="btn btn-outline-danger"
+                                        (click)="removeStep(i)">
+                                        <i aria-hidden="true" class="fa fa-minus"></i>
+                                    </button>
+                                    <button click-stop-propagation type="button" class="btn  btn-outline-success"
+                                        (click)=" addStep(i)">
+                                        <i aria-hidden="true" class="fa fa-plus"></i>
+                                    </button>
+                                    <button type="button" class="btn  btn-outline-dark px-2"
+                                        (click)="resetSequencer(i)">
+                                        <i aria-hidden="true" class="fa fa-eraser"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button *ngFor="let step of tSeq.seq.steps; let j = index" style="width: 41px" type="button"
+                        [ngClass]="{on: tSeq.seq.position === j, active: stepViews[i] === j}"
+                        class="step btn btn-outline-dark px-1 ml-2" (click)="changeStep(i, j)">
+                        {{tSeq.seq.steps[j].value | sign}}</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>

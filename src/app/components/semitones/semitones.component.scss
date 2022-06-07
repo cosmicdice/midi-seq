@@ -1,0 +1,20 @@
+g.notes {
+    cursor: pointer;
+    rect.on {
+        fill: purple;
+    }
+    rect.on.highlight {
+        fill: darkred;
+    }
+    &.white rect.on {
+        fill-opacity: 0.6;
+    }
+    &.black rect.on {
+        fill-opacity: 1;
+    }
+}
+svg.inactive {
+    g.notes rect.on {
+        fill: darkblue;
+    }
+}

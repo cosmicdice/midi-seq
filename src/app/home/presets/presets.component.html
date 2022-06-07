@@ -1,0 +1,74 @@
+<div class="card mb-3">
+    <div class="card-body pb-3">
+        <form class="form-inline">
+            <div class="form-group">
+                <label>Preset:</label>
+                <select #presetSelect class="form-control ml-2" name="preset" [(ngModel)]="selectedPreset"
+                    (ngModelChange)="presetChange($event)">
+                    <option *ngFor="let p of presets" [ngValue]="p">{{p.name}}
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="button" data-toggle="button" class="btn btn-outline-primary ml-2"
+                    (click)="showPresets = !showPresets">
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                </button>
+                <button type="button" (click)="save()" class="btn btn-outline-dark ml-2"
+                    title="Save presets to local storage">
+                    <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                </button>
+                <button type="button" (click)="reset()" class="btn btn-outline-danger ml-2"
+                    title="Reset to default presets">
+                    <i class="fa fa-eraser" aria-hidden="true"></i>
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    <ng-container *ngIf="showPresets">
+        <div class="list-group list-group-flush">
+
+            <div class="list-group-item">
+
+                <div class="row mb-m3">
+                    <div class="col-md-6 col-lg-4 mb-4" *ngFor="let preset of presets; index as i">
+                        <strong>{{preset.name}}</strong>
+                        <button type="button" (click)="load(preset)" class="btn btn-outline-primary btn-sm ml-2"
+                            title="Load preset">
+                            <i class="fa fa-play-circle" aria-hidden="true"></i>
+                        </button>
+                        <button ngxClipboard [cbContent]="export(preset)" type="button" title="Copy preset to clipboard"
+                            class="btn btn-outline-dark btn-sm ml-2">
+                            <i class="fa fa-files-o" aria-hidden="true"></i>
+                        </button>
+                        <button *ngIf="presets.length > 1 && preset !== selectedPreset" type="button"
+                            (click)="delete(i)" class="btn btn-outline-danger btn-sm ml-2" title="Delete preset">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </button>
+
+                    </div>
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <input type="text" class="form-control form-control-sm" name="newName"
+                                    [(ngModel)]="newName" placeholder="New preset name">
+                            </div>
+                            <button type="button" (click)="new()" class="btn btn-outline-success btn-sm ml-3"
+                                title="Create new preset">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" (click)="import()" class="btn btn-outline-dark btn-sm ml-2"
+                                title="Create preset from clipboard">
+                                <i class="fa fa-clipboard" aria-hidden="true"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </ng-container>
+</div>

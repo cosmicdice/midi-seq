@@ -1,4 +1,8 @@
-# MidiSeq
+# Parametric MIDI Sequencer
+
+This is a web based MIDI sequencer that generates MIDI melodies and rythms.
+
+## Required tools
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.5.
 

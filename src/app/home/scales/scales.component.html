@@ -1,0 +1,90 @@
+<form class="form-inline">
+    <div class="form-group">
+        <label>Scale:</label>
+        <select class="form-control ml-2" name="output" [(ngModel)]="preset.params.scale"
+            (ngModelChange)="scaleChanged()">
+            <option *ngFor="let scale of scales" [ngValue]="scale">{{scale.name}}
+                ({{scale.notes.length}})</option>
+        </select>
+    </div>
+    <div class="form-group btn-group ml-2" role="group">
+        <button type="button" data-toggle="button" class="btn btn-outline-primary" (click)="showKeys = !showKeys">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+        </button>
+    </div>
+
+    <div [hidden]="!showKeys" class="form-group ml-3">
+        <label>Octaves: </label>
+        <input type="number" name="octaves" class="form-control ml-2" min="1" max="8" [(ngModel)]="scale.repeatOctave"
+            (ngModelChange)="repeatOctavesChanged()">
+    </div>
+    <div [hidden]="!showKeys" class="form-group ml-3">
+        <div class="form-check">
+            <input class="form-check-input" name="full" type="checkbox" value="" id="full" [(ngModel)]="showAllOctaves"
+                (ngModelChange)="showAllOctavesToggle()">
+            <label class="form-check-label" for="full">
+                Show all
+            </label>
+        </div>
+    </div>
+
+    <div class="form-group ml-3">
+        <label>From: </label>
+        <input type="number" name="phase" class="form-control ml-2" min="1" max="96" [(ngModel)]="preset.params.root"
+            (ngModelChange)="parameterChanged()">
+    </div>
+    <div class="form-group ml-3">
+        <label>Select: </label>
+        <input type="number" name="select" class="form-control ml-2" min="1" max="96" [(ngModel)]="preset.params.select"
+            (ngModelChange)="parameterChanged()">
+    </div>
+
+</form>
+
+
+<div [hidden]="!showKeys" class="my-2">
+    <hr />
+    <div class="text-center">
+        <svg *ngFor="let oct of octavesView" [ngClass]="{inactive: oct > scale.repeatOctave - 1}" width="245"
+            height="80">
+            <g class="labels" stroke="gray" font-size="10">
+                <text stroke="black" x="12" y="70">C{{oct+1}}</text>
+                <text x="47" y="70">D{{oct+1}}</text>
+                <text x="82" y="70">E{{oct+1}}</text>
+                <text x="117" y="70">F{{oct+1}}</text>
+                <text x="152" y="70">G{{oct+1}}</text>
+                <text x="187" y="70">A{{oct+1}}</text>
+                <text x="222" y="70">B{{oct+1}}</text>
+            </g>
+            <g class="white notes" style="fill:white;fill-opacity:0;stroke:black;stroke-width:2">
+                <rect (click)="toggleNote(oct,0)" [ngClass]="{on: scale.semitones[oct][0]}" x="0" y="0" width="35"
+                    height="80" />
+                <rect (click)="toggleNote(oct,2)" [ngClass]="{on: scale.semitones[oct][2]}" x="35" y="0" width="35"
+                    height="80" />
+                <rect (click)="toggleNote(oct,4)" [ngClass]="{on: scale.semitones[oct][4]}" x="70" y="0" width="35"
+                    height="80" />
+                <rect (click)="toggleNote(oct,5)" [ngClass]="{on: scale.semitones[oct][5]}" x="105" y="0" width="35"
+                    height="80" />
+                <rect (click)="toggleNote(oct,7)" [ngClass]="{on: scale.semitones[oct][7]}" x="140" y="0" width="35"
+                    height="80" />
+                <rect (click)="toggleNote(oct,9)" [ngClass]="{on: scale.semitones[oct][9]}" x="175" y="0" width="35"
+                    height="80" />
+                <rect (click)="toggleNote(oct,11)" [ngClass]="{on: scale.semitones[oct][11]}" x="210" y="0" width="35"
+                    height="80" />
+            </g>
+            <g class="black notes" style="fill:black;stroke:black;stroke-width:2">
+                <rect (click)="toggleNote(oct,1)" [ngClass]="{on: scale.semitones[oct][1]}" x="25" y="0" width="20"
+                    height="55" />
+                <rect (click)="toggleNote(oct,3)" [ngClass]="{on: scale.semitones[oct][3]}" x="60" y="0" width="20"
+                    height="55" />
+                <rect (click)="toggleNote(oct,6)" [ngClass]="{on: scale.semitones[oct][6]}" x="130" y="0" width="20"
+                    height="55" />
+                <rect (click)="toggleNote(oct,8)" [ngClass]="{on: scale.semitones[oct][8]}" x="165" y="0" width="20"
+                    height="55" />
+                <rect (click)="toggleNote(oct,10)" [ngClass]="{on: scale.semitones[oct][10]}" x="200" y="0" width="20"
+                    height="55" />
+            </g>
+        </svg>
+
+    </div>
+</div>

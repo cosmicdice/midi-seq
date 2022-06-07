@@ -1,0 +1,25 @@
+g.notes {
+    cursor: pointer;
+    rect.on {
+        fill: purple;
+    }
+    &.white rect.on {
+        fill-opacity: 0.5;
+    }
+    &.black rect.on {
+        fill-opacity: 1;
+    }
+}
+svg.inactive {
+    g.notes rect.on {
+        fill: darkblue;
+    }
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+hr {
+    margin-top: 0;
+}

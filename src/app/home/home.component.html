@@ -1,0 +1,64 @@
+<div class="container">
+
+    <div class="row">
+        <div class="col">
+            <h2>Parametric MIDI Sequencer</h2>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label>Output: </label>
+                            <select class="form-control ml-2" name="output" [(ngModel)]="selectedMidiOutput">
+                                <option *ngFor="let midiOutput of midiOutputs" [ngValue]="midiOutput">
+                                    {{midiOutput.name}} - {{midiOutput.manufacturer}}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="form-group ml-3">
+                            <label>Note duration (ms): </label>
+                            <input type="number" name="phase" class="form-control ml-2" min="1" max="10000"
+                                [(ngModel)]="noteDuration">
+                        </div>
+
+                        <button type="button" class="btn btn-secondary ml-3" (click)="testMidiNote()">Test note</button>
+                        <a class="ml-3"
+                            href="https://dialogaudio.com/modulationprocessor/guides/virtual_midi/virtual_midi_setup.php">Loopback
+                            midi setup</a>
+
+                        <a class="ml-3" href="https://soundcloud.com/eye-bomb">
+                            Soundcloud</a>
+                        -
+                        <a href="mailto:antoni.galmiche@gmail.com">
+                            Email</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ul class="nav nav-tabs mb-3">
+        <li class="nav-item">
+            <a class="nav-link active" href="javascript:void(0);" [ngClass]="{'active' : selectedTab === 'arp'}"
+                (click)="selectedTab = 'arp'">MetaArp</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0);" [ngClass]="{'active' : selectedTab === 'phases'}"
+                (click)="selectedTab = 'phases'">Phases</a>
+        </li>
+    </ul>
+
+    <div [hidden]="selectedTab !== 'phases'" class="row">
+        <div class="col">
+            <seq-chart [notes]="notes$" scale="0"></seq-chart>
+        </div>
+    </div>
+
+
+    <div [hidden]="selectedTab !== 'arp'" class="row">
+        <div class="col">
+            <seq-gate [notes]="notes$"></seq-gate>
+        </div>
+    </div>
+
+</div>
