@@ -1,6 +1,7 @@
 # Parametric MIDI Sequencer
 
 This is a web based MIDI sequencer that generates MIDI melodies and rythms.
+Try it here: https://antonigalmiche.fr/seq/
 
 ## Required tools
 
